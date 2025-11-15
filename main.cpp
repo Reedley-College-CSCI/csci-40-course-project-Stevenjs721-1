@@ -8,6 +8,7 @@
 
 #include <iostream>
 #include <fstream>
+#include <string>
 using namespace std;
 
 class Movie {
@@ -26,7 +27,10 @@ public:
     void saveMovie() {
         ofstream movFile("LibraryMemory.txt");
 
-        movFile << name << genre << year;
+        movFile << name << endl;
+        movFile << "Genre: " << genre << endl;
+        movFile << "Year: " << year << endl;
+
         cout << "Movie saved!" << endl;
         movFile.close();
     }
@@ -49,7 +53,14 @@ public:
         cout << "2 to enter a movie \n";
     };
     void printLibrary() {
-        cout << "printing..." << endl;
+        cout << "-------------------------\n";
+        cout << "        Movie List       \n";
+        cout << "-------------------------\n";
+        ifstream movFile("LibraryMemory.txt");
+        string line;
+        while (getline(movFile, line)) {
+            cout << line << endl;
+        }
 
     };
     //void saveMovie();
@@ -62,7 +73,7 @@ int main() {
         cout << "Error! Could not read file. Try again" << endl;
         return -1;
     }
-
+    movFile.close();
 
 
 
