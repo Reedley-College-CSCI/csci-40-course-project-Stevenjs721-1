@@ -9,6 +9,8 @@
 #include <iostream>
 #include <fstream>
 #include <string>
+#include <limits>
+
 using namespace std;
 
 class Movie {
@@ -63,6 +65,7 @@ public:
         }
 
     };
+
     //void saveMovie();
 };
 
@@ -93,7 +96,9 @@ int main() {
     }
     else if (choice == 2) {
         cout << "Input name: ";
-        cin >> currName;
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        getline(cin, currName);
+
         cout << "Input genre: ";
         cin >> currGenre;
         cout << "Input year: ";
