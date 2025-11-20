@@ -27,11 +27,11 @@ public:
         year = currYear;
     };
     void saveMovie() {
-        ofstream movFile("LibraryMemory.txt");
+        ofstream movFile("LibraryMemory.txt", ios::app);
 
-        movFile << name << endl;
+        movFile << ">" << name << endl;
         movFile << "Genre: " << genre << endl;
-        movFile << "Year: " << year << endl;
+        movFile << "Year: " << year << endl << endl;
 
         cout << "Movie saved!" << endl;
         movFile.close();
