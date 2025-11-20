@@ -33,7 +33,7 @@ public:
         movFile << "Genre: " << genre << endl;
         movFile << "Year: " << year << endl << endl;
 
-        cout << "Movie saved!" << endl;
+        cout << "\nMovie saved!\n\n";
         movFile.close();
     }
     void print() {
@@ -90,9 +90,14 @@ int main() {
 
     Library.printMain();
     cin >> choice;
+    cout << endl;
 
     if (choice == 1) {
         Library.printLibrary();
+        cout << "Enter -99 to go to the main menu" << endl;
+        cin >> choice;
+        if (choice == -99)
+            main();
     }
     else if (choice == 2) {
         cout << "Input name: ";
@@ -104,10 +109,12 @@ int main() {
         cout << "Input year: ";
         cin >> currYear;
         currMovie.setMovieInfo(currName, currGenre, currYear);
-        currMovie.print();
         currMovie.saveMovie();
+        main();
+
     };
 
+    
     return 0;
 
 }
