@@ -51,12 +51,9 @@ public:
 
 class MovieLibrary {
 private:
-    struct currLibrary {
-        string name;
-        string genre;
-        string year;
-        int size = 0;
-    };
+    int Capacity = 10;
+    movieStruct* Movies = new movieStruct[Capacity];
+    int librarySize = 0;
 public:
     void printMain() const{
         cout << "-------------------------\n";
@@ -77,6 +74,8 @@ public:
             cout << line << endl;
         }
     };
+    void setLibrary();
+    void getLibrary();
    
 };
 
