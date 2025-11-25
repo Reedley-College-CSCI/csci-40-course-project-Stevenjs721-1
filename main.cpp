@@ -74,7 +74,25 @@ public:
             cout << line << endl;
         }
     };
-    void setLibrary();
+    void setLibrary() {
+        fstream movFile("LibraryMemory.txt");
+        string blankLine;
+        while (getline(movFile, Movies[librarySize].name)
+            && getline(movFile, Movies[librarySize].genre)
+            && getline(movFile, Movies[librarySize].year)) {
+            getline(movFile, blankLine);
+            ++librarySize;
+
+            if (librarySize == Capacity) {
+                int newCapacity = Capacity + 20;
+                movieStruct* newMovies = new movieStruct[newCapacity];
+                for (int i = 0; i < Capacity; ++i) { *(newMovies + i) = *(Movies + i); }
+                delete[] Movies;
+                Movies = newMovies;
+                Capacity = newCapacity;
+            }
+        }
+    };
     void getLibrary();
    
 };
