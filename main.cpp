@@ -97,6 +97,7 @@ public:
         }
     };
     void printLibrary() {
+        int choice;
         cout << "-------------------------\n";
         cout << "        Movie List       \n";
         cout << "-------------------------\n";
@@ -110,8 +111,31 @@ public:
         cout << "Enter: \n";
         cout << "1 to sort\n";
         cout << "2 to search\n";
-        cout << "0 to quit\n";
+        cout << "0 to go back to main menu\n";
+        while (!(cin >> choice) || choice < 0 || choice > 2) {
+            cout << "Error: invalid input! Try again." << endl;
+            cin.clear(); // Clear error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        };
+        switch (choice) {
+        case 1:
+            sortLibrary();
+            break;
+        case 2:
+            searchLibrary();
+            break;
+        }
+        
     };
+    
+    void searchLibrary() {
+        cout << "Enter movie name you would like to search:\n";
+
+    }
+    void sortLibrary() {
+        cout << "Sort by: \n";
+        cout << "1 Name\n2 Year\n";
+    }
     void removeMovie() {
         string movieR;
         char confirm = 'N';
@@ -240,15 +264,12 @@ int main() {
     Library.printMain();
     
    
-    while (!(cin >> choice)) {
+    while (!(cin >> choice) || choice < 0 || choice > 4) {
         cout << "Error: invalid input! Try again." << endl;
         cin.clear(); // Clear error flag
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
-    }
-    while (choice < -1 || choice > 5) {
-        cout << "Error: invalid input! Try again." << endl;
-        cin >> choice;
-    }
+    };
+   
     cout << endl;
     switch (choice) {
     case 1:
