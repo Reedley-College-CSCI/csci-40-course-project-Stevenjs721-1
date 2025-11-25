@@ -117,6 +117,7 @@ public:
         char confirm = 'N';
         int desiredLine = 0;
         cout << "Enter movie name to be removed: \n";
+        cin.ignore();
         getline(cin, movieR);
         for (i = 0; i < librarySize; i++) {
             if (">" + movieR == Movies[i].name) {
@@ -237,39 +238,48 @@ int main() {
 
     
     Library.printMain();
-    cin >> choice;
+    
+   
+    while (!(cin >> choice)) {
+        cout << "Error: invalid input! Try again." << endl;
+        cin.clear(); // Clear error flag
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+    }
+    while (choice < -1 || choice > 5) {
+        cout << "Error: invalid input! Try again." << endl;
+        cin >> choice;
+    }
     cout << endl;
-    while (choice != 0) {
-        switch (choice) {
-        case 1:
-            Library.printLibrary();
-            cin.ignore();
-            break;
-        case 2:
-            cout << "Input name: ";
-            cin.ignore(numeric_limits<streamsize>::max(), '\n');
-            getline(cin, currName);
+    switch (choice) {
+    case 1:
+        Library.printLibrary();
+        cin.ignore();
+        main();
+        break;
+    case 2:
+        cout << "Input name: ";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        getline(cin, currName);
 
-            cout << "Input genre: ";
-            cin >> currGenre;
-            cout << "Input year: ";
-            cin >> currYear;
-            currMovie.setMovieInfo(currName, currGenre, currYear);
-            currMovie.saveMovie();
-            main();
-            break;
-        case 3:
-            Library.removeMovie();
-            main();
-            break;
-        case 4:
-            Library.updateMovie();
-            main();
-            break;
-        case 0:
-            return 0;
-            break;
-        }
+        cout << "Input genre: ";
+        cin >> currGenre;
+        cout << "Input year: ";
+        cin >> currYear;
+        currMovie.setMovieInfo(currName, currGenre, currYear);
+        currMovie.saveMovie();
+        main();
+        break;
+    case 3:
+        Library.removeMovie();
+        main();
+        break;
+    case 4:
+        Library.updateMovie();
+        main();
+        break;
+    case 0:
+        return 0;
+        break;
     }
     return 0;
 }
