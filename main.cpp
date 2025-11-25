@@ -117,7 +117,7 @@ public:
         char confirm = 'N';
         int desiredLine = 0;
         cout << "Enter movie name to be removed: \n";
-        cin >> movieR;
+        getline(cin, movieR);
         for (i = 0; i < librarySize; i++) {
             if (">" + movieR == Movies[i].name) {
                 cout << "-------------------------\n";
@@ -136,20 +136,85 @@ public:
         int currLine = 0;
         if (confirm == 'Y' || confirm == 'y') {
             while (getline(movFile, line)) {
-                if (currLine !=  desiredLine && currLine != (desiredLine + 1) 
+                if (currLine != desiredLine && currLine != (desiredLine + 1)
                     && currLine != (desiredLine + 2) && currLine != (desiredLine + 3)) {
                     tempFile << line << endl;
                 }
-
                 currLine++;
             }
+
             movFile.close();
             tempFile.close();
             remove("LibraryMemory.txt");
             rename("temp.txt", "LibraryMemory.txt");
-        }
+        };
     }
-   
+    void updateMovie() {
+        string updateMovie;
+        char confirm = 'N';
+        string currName;
+        string currGenre;
+        string currYear;
+        int desiredLine = 0;
+        Movie currMovie;
+
+        cout << "Enter name of movie you would like to update: \n";
+        cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        getline(cin, updateMovie);
+        for (i = 0; i < librarySize; i++) {
+            if (">" + updateMovie == Movies[i].name) {
+                cout << "-------------------------\n";
+                cout << Movies[i].name << endl;
+                cout << Movies[i].genre << endl;
+                cout << Movies[i].year << endl << endl;
+                cout << "-------------------------\n";
+                cout << "Is this the movie your looking for? (Y/N)\n";
+                cin >> confirm;
+                desiredLine = (i * 4);
+            };
+        };
+
+        if (confirm == 'Y' || confirm == 'y') {
+            cout << "<Re-enter information>\n";
+
+            cout << "Input name: ";
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+            getline(cin, currName);
+
+            cout << "Input genre: ";
+            cin >> currGenre;
+            cout << "Input year: ";
+            cin >> currYear;
+            
+            fstream movFile("LibraryMemory.txt");
+            ofstream tempFile("Temp.txt");
+            string line;
+            int currLine = 0;
+
+            while (getline(movFile, line)) {
+                if (currLine != desiredLine && currLine != (desiredLine + 1)
+                    && currLine != (desiredLine + 2) && currLine != (desiredLine + 3)) {
+                    tempFile << line << endl;
+                }
+                if (currLine == desiredLine) {
+                    tempFile << ">" << currName << endl;
+                    tempFile << "Genre: " << currGenre << endl;
+                    tempFile << "Year: " << currYear << endl << endl;
+                }
+                currLine++;
+            }
+
+            movFile.close();
+            tempFile.close();
+            remove("LibraryMemory.txt");
+            rename("temp.txt", "LibraryMemory.txt");
+
+
+
+        }
+
+
+    };
 };
 
 int main() {
@@ -178,8 +243,7 @@ int main() {
         switch (choice) {
         case 1:
             Library.printLibrary();
-            
-            main();
+            cin.ignore();
             break;
         case 2:
             cout << "Input name: ";
@@ -199,12 +263,11 @@ int main() {
             main();
             break;
         case 4:
-
+            Library.updateMovie();
             main();
             break;
-        default:
-            cout << "Invalid Input! Try again.";
-            cin >> choice;
+        case 0:
+            return 0;
             break;
         }
     }
