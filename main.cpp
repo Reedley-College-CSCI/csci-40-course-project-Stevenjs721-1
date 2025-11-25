@@ -26,7 +26,7 @@ class Movie {
 private:
     movieStruct movie;
 public:
-    void setMovieInfo(string currName, string currGenre, int currYear) {
+    void setMovieInfo(string currName, string currGenre, string currYear) {
         movie.name = currName;
         movie.genre = currGenre;
         movie.year = currYear;
@@ -64,7 +64,7 @@ public:
         cout << "2 to enter a movie \n";
         cout << "3 to remove a movie \n";
     };
-    void printLibrary() {
+    /*void printLibrary() {
         cout << "-------------------------\n";
         cout << "        Movie List       \n";
         cout << "-------------------------\n";
@@ -73,7 +73,7 @@ public:
         while (getline(movFile, line)) {
             cout << line << endl;
         }
-    };
+    };*/
     void setLibrary() {
         fstream movFile("LibraryMemory.txt");
         string blankLine;
@@ -93,7 +93,13 @@ public:
             }
         }
     };
-    void getLibrary();
+    void printLibrary() {
+        for (int i = 0; i < librarySize; ++i) {
+            cout << Movies[i].name << endl;
+            cout << Movies[i].genre << endl;
+            cout << Movies[i].year << endl << endl;
+        };
+    };
    
 };
 
@@ -112,7 +118,8 @@ int main() {
     int choice;
     string currName;
     string currGenre;
-    int currYear;
+    string currYear;
+    Library.setLibrary();
 
     
     Library.printMain();
