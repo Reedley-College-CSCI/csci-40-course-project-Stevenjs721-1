@@ -115,7 +115,7 @@ public:
     void removeMovie() {
         string movieR;
         char confirm = 'N';
-        int desiredMovie = 0;
+        int desiredLine = 0;
         cout << "Enter movie name to be removed: \n";
         cin >> movieR;
         for (i = 0; i < librarySize; i++) {
@@ -127,14 +127,26 @@ public:
                 cout << "-------------------------\n";
                 cout << "Is this the movie your looking for? (Y/N)\n";
                 cin >> confirm;
-                desiredMovie = i;
+                desiredLine = (i * 4);
             };
         };
+        fstream movFile("LibraryMemory.txt");
+        ofstream tempFile("Temp.txt");
+        string line;
+        int currLine = 0;
         if (confirm == 'Y' || confirm == 'y') {
-            for (i = desiredMovie; i < librarySize; ++i) {
-                Movies[i + 1] = Movies[i];
-            };
-            cout << "Done!\n";
+            while (getline(movFile, line)) {
+                if (currLine !=  desiredLine && currLine != (desiredLine + 1) 
+                    && currLine != (desiredLine + 2) && currLine != (desiredLine + 3)) {
+                    tempFile << line << endl;
+                }
+
+                currLine++;
+            }
+            movFile.close();
+            tempFile.close();
+            remove("LibraryMemory.txt");
+            rename("temp.txt", "LibraryMemory.txt");
         }
     }
    
@@ -187,6 +199,7 @@ int main() {
             main();
             break;
         case 4:
+
             main();
             break;
         default:
