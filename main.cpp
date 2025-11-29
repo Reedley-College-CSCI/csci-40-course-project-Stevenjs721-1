@@ -172,8 +172,104 @@ public:
 
 
     void sortLibrary() {
-        cout << "Sort by: \n";
-        cout << "1 Name\n2 Year\n";
+        int choice;
+        cout << "Sort by: \n\n";
+        cout << "1 Name\n2 Year\n3 Genre\n4 exit\n";
+        cin >> choice;
+        switch (choice) {
+        case 1:
+            SortName();
+            break;
+        case 2:
+            SortYear();
+            break;
+        case 3:
+            break;
+        case 4:
+            return;
+            break;
+        }
+    }
+    void SortName() {
+        int j;
+        int indexSmallest;
+        string temp;      // Temporary variable for swap
+
+
+        movieStruct* tempLibrary = new movieStruct[librarySize];
+
+       tempLibrary = Movies;
+
+        
+        for (i = 0; i < librarySize; ++i) {
+
+            // Find index of smallest remaining element
+            indexSmallest = i;
+            for (j = i + 1; j < librarySize; ++j) {
+
+                if (tempLibrary[j].name.at(1) < tempLibrary[indexSmallest].name.at(1)) {
+                    indexSmallest = j;
+                }
+            }
+
+            // Swap numbers[i] and numbers[indexSmallest]
+            temp = tempLibrary[i].name;
+            tempLibrary[i] = tempLibrary[indexSmallest];
+            tempLibrary[indexSmallest].name = temp;
+        }
+        
+        cout << "-------------------------\n";
+        cout << "  Movie List - By Name   \n";
+        cout << "-------------------------\n";
+
+        for (i = 0; i < librarySize; ++i) {
+            cout << tempLibrary[i].name << endl;
+            cout << tempLibrary[i].genre << endl;
+            cout << tempLibrary[i].year << endl << endl;
+        };
+        
+        delete[] tempLibrary;
+    }
+    
+    void SortYear() {
+        int j;
+        int indexSmallest;
+        string temp;      // Temporary variable for swap
+
+
+        movieStruct* tempLibrary = new movieStruct[librarySize];
+
+        tempLibrary = Movies;
+
+
+        for (i = 0; i < librarySize; ++i) {
+
+            // Find index of smallest remaining element
+            indexSmallest = i;
+            for (j = i + 1; j < librarySize; ++j) {
+               
+                if (tempLibrary[j].year.substr(6, 4) > tempLibrary[indexSmallest].year.substr(6, 4)) {
+                    indexSmallest = j;
+                }
+            }
+
+            // Swap numbers[i] and numbers[indexSmallest]
+            temp = tempLibrary[i].year;
+            tempLibrary[i] = tempLibrary[indexSmallest];
+            tempLibrary[indexSmallest].year = temp;
+        }
+
+        cout << "-------------------------\n";
+        cout << "  Movie List - By Name   \n";
+        cout << "-------------------------\n";
+
+        for (i = 0; i < librarySize; ++i) {
+            cout << tempLibrary[i].name << endl;
+            cout << tempLibrary[i].genre << endl;
+            cout << tempLibrary[i].year << endl << endl;
+        };
+
+        delete[] tempLibrary;
     }
     void removeMovie() {
         string movieR;
