@@ -56,7 +56,7 @@ private:
     int librarySize = 0;
     int i = 0;
 public:
-    void printMain() const{
+    void printMain() const {
         cout << "-------------------------\n";
         cout << "      Movie Library      \n";
         cout << "-------------------------\n";
@@ -125,13 +125,52 @@ public:
             searchLibrary();
             break;
         }
-        
-    };
-    
-    void searchLibrary() {
-        cout << "Enter movie name you would like to search:\n";
 
+    };
+
+    void searchLibrary() {
+        string search;
+        char confirm = 'n';
+        bool nofindings;
+        int desiredLine;
+        bool movieFound = false;
+        int not1stTry = 0;
+        cin.ignore();
+
+        while (movieFound == false) {
+            nofindings = true;
+            cout << "Enter movie name or 0 to exit:\n";
+            getline(cin, search);
+            if (search == "0") { return; }
+
+            for (i = 0; i < librarySize; i++) {
+                if (">" + search == Movies[i].name) {
+                    desiredLine = i;
+                    cout << "-------------------------\n";
+                    cout << Movies[i].name << endl;
+                    cout << Movies[i].genre << endl;
+                    cout << Movies[i].year << endl;
+                    cout << "Movie spot: " << desiredLine + 1 << endl;
+                    cout << "-------------------------\n";
+                    cout << "Is this the movie your looking for? (Y/N)\n";
+                    cin >> confirm;
+                    movieFound = true;
+                    nofindings = false;
+                }
+            }
+            if (nofindings == true) {
+                cout << "\n---couldn't find movie---\n\n";
+            }
+        }
+
+        if (confirm == 'n' || confirm == 'N') {
+            cout << "\n---You may try again---\n\n";
+            return searchLibrary();
+
+        }
     }
+
+
     void sortLibrary() {
         cout << "Sort by: \n";
         cout << "1 Name\n2 Year\n";
@@ -274,7 +313,6 @@ int main() {
     switch (choice) {
     case 1:
         Library.printLibrary();
-        cin.ignore();
         main();
         break;
     case 2:
