@@ -134,7 +134,6 @@ public:
         bool nofindings;
         int desiredLine;
         bool movieFound = false;
-        int not1stTry = 0;
         cin.ignore();
 
         while (movieFound == false) {
@@ -174,8 +173,14 @@ public:
     void sortLibrary() {
         int choice;
         cout << "Sort by: \n\n";
-        cout << "1 Name\n2 Year\n3 Genre\n4 exit\n";
-        cin >> choice;
+        cout << "1 Name\n2 Year\n3 Genre\n0 exit\n";
+
+        while (!(cin >> choice) || choice < 0 || choice > 3) {
+            cout << "Error: invalid input! Try again." << endl;
+            cin.clear(); // Clear error flag
+            cin.ignore(numeric_limits<streamsize>::max(), '\n');
+        };
+
         switch (choice) {
         case 1:
             SortName();
@@ -186,7 +191,7 @@ public:
         case 3:
             SortGenre();
             break;
-        case 4:
+        case 0:
             return;
             break;
         }
@@ -294,24 +299,49 @@ public:
 
     }
     void removeMovie() {
-        string movieR;
+        string movieToRemove;
         char confirm = 'N';
         int desiredLine = 0;
-        cout << "Enter movie name to be removed: \n";
+        bool nofindings;
+        bool movieFound = false;
+
+
+
+
         cin.ignore();
-        getline(cin, movieR);
-        for (i = 0; i < librarySize; i++) {
-            if (">" + movieR == Movies[i].name) {
-                cout << "-------------------------\n";
-                cout << Movies[i].name << endl;
-                cout << Movies[i].genre << endl;
-                cout << Movies[i].year << endl << endl;
-                cout << "-------------------------\n";
-                cout << "Is this the movie your looking for? (Y/N)\n";
-                cin >> confirm;
-                desiredLine = (i * 4);
-            };
-        };
+
+        while (movieFound == false) {
+            nofindings = true;
+            cout << "Enter movie name to be removed or 0 to exit:\n";
+            getline(cin, movieToRemove);
+            if (movieToRemove == "0") { return; }
+
+            for (i = 0; i < librarySize; i++) {
+                if (">" + movieToRemove == Movies[i].name) {
+                    cout << "-------------------------\n";
+                    cout << Movies[i].name << endl;
+                    cout << Movies[i].genre << endl;
+                    cout << Movies[i].year << endl;
+                    cout << "Movie spot: " << desiredLine + 1 << endl;
+                    cout << "-------------------------\n";
+                    cout << "Is this the movie your looking for? (Y/N)\n";
+                    cin >> confirm;
+                    desiredLine = (i * 4);
+                    movieFound = true;
+                    nofindings = false;
+                }
+            }
+            if (nofindings == true) {
+                cout << "\n---couldn't find movie---\n\n";
+            }
+        }
+
+        if (confirm == 'n' || confirm == 'N') {
+            cout << "\n---You may try again---\n\n";
+            return searchLibrary();
+
+        }
+
         fstream movFile("LibraryMemory.txt");
         ofstream tempFile("Temp.txt");
         string line;
