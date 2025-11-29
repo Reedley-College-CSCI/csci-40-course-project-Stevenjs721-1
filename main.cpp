@@ -305,9 +305,6 @@ public:
         bool nofindings;
         bool movieFound = false;
 
-
-
-
         cin.ignore();
 
         while (movieFound == false) {
@@ -318,15 +315,16 @@ public:
 
             for (i = 0; i < librarySize; i++) {
                 if (">" + movieToRemove == Movies[i].name) {
+                    desiredLine = i;
                     cout << "-------------------------\n";
                     cout << Movies[i].name << endl;
                     cout << Movies[i].genre << endl;
                     cout << Movies[i].year << endl;
                     cout << "Movie spot: " << desiredLine + 1 << endl;
                     cout << "-------------------------\n";
+                    desiredLine = (i * 4);
                     cout << "Is this the movie your looking for? (Y/N)\n";
                     cin >> confirm;
-                    desiredLine = (i * 4);
                     movieFound = true;
                     nofindings = false;
                 }
@@ -362,29 +360,50 @@ public:
         };
     }
     void updateMovie() {
-        string updateMovie;
+        string movieToUpdate;
         char confirm = 'N';
         string currName;
         string currGenre;
         string currYear;
         int desiredLine = 0;
         Movie currMovie;
+        bool nofindings;
+        bool movieFound = false;
 
-        cout << "Enter name of movie you would like to update: \n";
-        cin.ignore(numeric_limits<streamsize>::max(), '\n');
-        getline(cin, updateMovie);
-        for (i = 0; i < librarySize; i++) {
-            if (">" + updateMovie == Movies[i].name) {
-                cout << "-------------------------\n";
-                cout << Movies[i].name << endl;
-                cout << Movies[i].genre << endl;
-                cout << Movies[i].year << endl << endl;
-                cout << "-------------------------\n";
-                cout << "Is this the movie your looking for? (Y/N)\n";
-                cin >> confirm;
-                desiredLine = (i * 4);
-            };
-        };
+        cin.ignore();
+
+        while (movieFound == false) {
+            nofindings = true;
+            cout << "Enter movie to update or 0 to exit:\n";
+            getline(cin, movieToUpdate);
+            if (movieToUpdate == "0") { return; }
+
+            for (i = 0; i < librarySize; i++) {
+                if (">" + movieToUpdate == Movies[i].name) {
+                    desiredLine = i;
+                    cout << "-------------------------\n";
+                    cout << Movies[i].name << endl;
+                    cout << Movies[i].genre << endl;
+                    cout << Movies[i].year << endl;
+                    cout << "Movie spot: " << desiredLine + 1 << endl;
+                    cout << "-------------------------\n";
+                    desiredLine = (i * 4);
+                    cout << "Is this the movie your looking for? (Y/N)\n";
+                    cin >> confirm;
+                    movieFound = true;
+                    nofindings = false;
+                }
+            }
+            if (nofindings == true) {
+                cout << "\n---couldn't find movie---\n\n";
+            }
+        }
+
+        if (confirm == 'n' || confirm == 'N') {
+            cout << "\n---You may try again---\n\n";
+            return searchLibrary();
+
+        }
 
         if (confirm == 'Y' || confirm == 'y') {
             cout << "<Re-enter information>\n";
