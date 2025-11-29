@@ -26,10 +26,27 @@ class Movie {
 private:
     movieStruct movie;
 public:
-    void setMovieInfo(string currName, string currGenre, string currYear) {
-        movie.name = currName;
-        movie.genre = currGenre;
-        movie.year = currYear;
+    bool setMovieInfo(string currName, string currGenre, string currYear) {
+        char confirm;
+  
+        cout << "-------------------------\n";
+        cout << "Name: " << currName << endl;
+        cout << "Genre: " << currGenre << endl;
+        cout << "Year: " << currYear << endl;
+        cout << "-------------------------\n";
+        cout << "\nIs information given correct(Y/N)\n";
+        cin >> confirm;
+
+        if (confirm == 'y' || confirm == 'Y') {
+            movie.name = currName;
+            movie.genre = currGenre;
+            movie.year = currYear;
+            return true;
+        }
+        else if (confirm == 'n' || confirm == 'N') {
+            cout << "\nMovie not saved\n";
+            return false;
+        }
     };
     void const saveMovie() {
         ofstream movFile("LibraryMemory.txt", ios::app);
@@ -352,7 +369,7 @@ public:
                 }
                 currLine++;
             }
-
+            cout << "\nMovie Removed!\n";
             movFile.close();
             tempFile.close();
             remove("LibraryMemory.txt");
@@ -434,17 +451,12 @@ public:
                 }
                 currLine++;
             }
-
+            cout << "\nMovie Updated!\n";
             movFile.close();
             tempFile.close();
             remove("LibraryMemory.txt");
             rename("temp.txt", "LibraryMemory.txt");
-
-
-
         }
-
-
     };
 };
 
@@ -464,6 +476,7 @@ int main() {
     string currName;
     string currGenre;
     string currYear;
+    bool saved;
     Library.setLibrary();
 
     
@@ -483,16 +496,31 @@ int main() {
         main();
         break;
     case 2:
+        cout << "Fill out information or enter 0 to exit\n";
         cout << "Input name: ";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
         getline(cin, currName);
-
+        if (currName == "0") {
+            main();
+            break;
+        }
         cout << "Input genre: ";
         cin >> currGenre;
+        if (currName == "0") {
+            main();
+            break;
+        }
         cout << "Input year: ";
         cin >> currYear;
-        currMovie.setMovieInfo(currName, currGenre, currYear);
-        currMovie.saveMovie();
+        if (currName == "0") {
+            main();
+            break;
+        }
+        
+        saved = currMovie.setMovieInfo(currName, currGenre, currYear);
+        if (saved == true) {
+            currMovie.saveMovie();
+        }
         main();
         break;
     case 3:
