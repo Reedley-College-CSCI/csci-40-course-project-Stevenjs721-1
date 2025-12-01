@@ -4,7 +4,8 @@
 /* 
  * Description:
  * A movie library that allows users to input, store, and filter a through
- * movies. 
+ * movies. This allows users to keep track of movies the have watched or may want
+ * to watch. It implements a variety of concepts learned from my CSCI 40 class. 
 */
 
 #include <iostream>
