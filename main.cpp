@@ -439,7 +439,10 @@ public:
             ofstream tempFile("Temp.txt");
             string line;
             int currLine = 0;
-
+            if (currName == "0") {
+                cout <<"\n\n-Error: '0' may not be used as a movie name. Try again!-\n\n";
+                return;
+            }
             while (getline(movFile, line)) {
                 if (currLine != desiredLine && currLine != (desiredLine + 1)
                     && currLine != (desiredLine + 2) && currLine != (desiredLine + 3)) {
