@@ -159,7 +159,7 @@ public:
         bool movieFound = false;
         cin.ignore();
 
-        //simple selection search
+        //simple linear search
         while (movieFound == false) {
             nofindings = true;
             cout << "Enter movie name or 0 to exit:\n";
