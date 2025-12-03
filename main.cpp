@@ -46,25 +46,30 @@ int main() {
     string currGenre;
     string currYear;
     bool saved;
+
+    //file to array
     Library.setLibrary();
 
-    
+    //main menu options
     Library.printMain();
     
-   
+   //For invalid inputs
     while (!(cin >> choice) || choice < 0 || choice > 4) {
         cout << "Error: invalid input! Try again." << endl;
         cin.clear(); // Clear error flag
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
     };
-   
     cout << endl;
+
+
     switch (choice) {
     case 1:
+        //library
         Library.printLibrary();
         main();
         break;
     case 2:
+        //enter a movie
         cout << "Fill out information or enter 0 to exit\n";
         cout << "Input name: ";
         cin.ignore(numeric_limits<streamsize>::max(), '\n');
@@ -93,10 +98,12 @@ int main() {
         main();
         break;
     case 3:
+        //removes movie
         Library.removeMovie();
         main();
         break;
     case 4:
+        //updates movie
         Library.updateMovie();
         main();
         break;

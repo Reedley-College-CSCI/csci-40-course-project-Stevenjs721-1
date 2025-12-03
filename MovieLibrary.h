@@ -23,6 +23,8 @@ public:
     bool setMovieInfo(string currName, string currGenre, string currYear) {
         char confirm;
 
+        //conform information to save
+
         cout << "-------------------------\n";
         cout << "Name: " << currName << endl;
         cout << "Genre: " << currGenre << endl;
@@ -43,6 +45,7 @@ public:
         }
     };
     void const saveMovie() {
+        //appends information to file
         ofstream movFile("LibraryMemory.txt", ios::app);
 
         movFile << ">" << movie.name << endl;
@@ -57,7 +60,6 @@ public:
         cout << "Genre: " << movie.genre << endl;
         cout << "Year: " << movie.year << endl;
     }
-
 };
 
 class MovieLibrary {
@@ -89,6 +91,8 @@ public:
         }
     };*/
     void setLibrary() {
+
+        // file to array
         fstream movFile("LibraryMemory.txt");
         string blankLine;
         while (getline(movFile, Movies[librarySize].name)
@@ -97,6 +101,7 @@ public:
             getline(movFile, blankLine);
             ++librarySize;
 
+            //Dynamic Allocation 
             if (librarySize == Capacity) {
                 int newCapacity = Capacity + 20;
                 movieStruct* newMovies = new movieStruct[newCapacity];
@@ -106,6 +111,7 @@ public:
                 Capacity = newCapacity;
             }
         }
+        movFile.close();
     };
     void printLibrary() {
         int choice;
@@ -119,15 +125,21 @@ public:
             cout << Movies[i].year << endl << endl;
         };
         cout << "-------------------------\n";
+
+        //Library options
         cout << "Enter: \n";
         cout << "1 to sort\n";
         cout << "2 to search\n";
         cout << "0 to go back to main menu\n";
+
+        //invalid inputs
         while (!(cin >> choice) || choice < 0 || choice > 2) {
             cout << "Error: invalid input! Try again." << endl;
             cin.clear(); // Clear error flag
             cin.ignore(numeric_limits<streamsize>::max(), '\n');
         };
+
+        //choices
         switch (choice) {
         case 1:
             sortLibrary();
@@ -147,6 +159,7 @@ public:
         bool movieFound = false;
         cin.ignore();
 
+        //simple selection search
         while (movieFound == false) {
             nofindings = true;
             cout << "Enter movie name or 0 to exit:\n";
@@ -162,17 +175,20 @@ public:
                     cout << Movies[i].year << endl;
                     cout << "Movie spot: " << desiredLine + 1 << endl;
                     cout << "-------------------------\n";
+                    //confirm movie
                     cout << "Is this the movie your looking for? (Y/N)\n";
                     cin >> confirm;
                     movieFound = true;
                     nofindings = false;
                 }
             }
+            //if no movie found then output message
             if (nofindings == true) {
                 cout << "\n---couldn't find movie---\n\n";
             }
         }
 
+        //if found incorrect movie try again
         if (confirm == 'n' || confirm == 'N') {
             cout << "\n---You may try again---\n\n";
             return searchLibrary();
@@ -184,8 +200,10 @@ public:
     void sortLibrary() {
         int choice;
         cout << "Sort by: \n\n";
+        //choices 
         cout << "1 Name\n2 Year\n3 Genre\n0 exit\n";
 
+        //invalid inputs
         while (!(cin >> choice) || choice < 0 || choice > 3) {
             cout << "Error: invalid input! Try again." << endl;
             cin.clear(); // Clear error flag
@@ -224,12 +242,12 @@ public:
                 }
             }
 
-            // Swap numbers[i] and numbers[indexSmallest]
+            //orders sort
             temp = Movies[i];
             Movies[i] = Movies[indexSmallest];
             Movies[indexSmallest] = temp;
         }
-
+        //prints sort
         cout << "-------------------------\n";
         cout << "  Movie List - By Name   \n";
         cout << "-------------------------\n";
@@ -257,12 +275,13 @@ public:
                     indexSmallest = j;
                 }
             }
-
-            // Swap numbers[i] and numbers[indexSmallest]
+            //orders sort
             temp = Movies[i];
             Movies[i] = Movies[indexSmallest];
             Movies[indexSmallest] = temp;
         }
+
+        //prints sort
 
         cout << "-------------------------\n";
         cout << "  Movie List - By Year   \n";
@@ -292,12 +311,13 @@ public:
                 }
             }
 
-            // Swap numbers[i] and numbers[indexSmallest]
+            //orders sort
             temp = Movies[i];
             Movies[i] = Movies[indexSmallest];
             Movies[indexSmallest] = temp;
         }
 
+        //prints sort
         cout << "-------------------------\n";
         cout << "  Movie List - By Genre  \n";
         cout << "-------------------------\n";
@@ -317,7 +337,7 @@ public:
         bool movieFound = false;
 
         cin.ignore();
-
+        //search for movie to be removed
         while (movieFound == false) {
             nofindings = true;
             cout << "Enter movie name to be removed or 0 to exit:\n";
@@ -350,7 +370,7 @@ public:
             return searchLibrary();
 
         }
-
+        //new file with movie removed
         fstream movFile("LibraryMemory.txt");
         ofstream tempFile("Temp.txt");
         string line;
@@ -383,6 +403,7 @@ public:
 
         cin.ignore();
 
+        //search for movie
         while (movieFound == false) {
             nofindings = true;
             cout << "Enter movie to update or 0 to exit:\n";
@@ -415,7 +436,7 @@ public:
             return searchLibrary();
 
         }
-
+        //information to re-enter
         if (confirm == 'Y' || confirm == 'y') {
             cout << "<Re-enter information>\n";
 
@@ -436,6 +457,7 @@ public:
                 cout << "\n\n-Error: '0' may not be used as a movie name. Try again!-\n\n";
                 return;
             }
+            //saves movie to new file made
             while (getline(movFile, line)) {
                 if (currLine != desiredLine && currLine != (desiredLine + 1)
                     && currLine != (desiredLine + 2) && currLine != (desiredLine + 3)) {
